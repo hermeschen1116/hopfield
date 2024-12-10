@@ -11,7 +11,7 @@ class HopfieldNetwork:
 			self.__weight += numpy.outer(pattern, pattern)
 		numpy.fill_diagonal(self.__weight, 0)
 
-	def retrieve(self, stimulate: numpy.ndarray, max_iter: int = 10):
+	def retrieve(self, stimulate: numpy.ndarray, max_iter: int = 10) -> numpy.ndarray:
 		state: numpy.ndarray = stimulate.copy()
 		for iteration in range(max_iter):
 			previous_state: numpy.ndarray = state.copy()
@@ -20,4 +20,5 @@ class HopfieldNetwork:
 				state[i] = 1 if net_input > 0 else -1
 			if numpy.array_equal(state, previous_state):
 				break
+
 		return state
