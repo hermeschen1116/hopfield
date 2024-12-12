@@ -1,0 +1,37 @@
+name: Release
+on: ["push"]
+permissions:
+  contents: write
+jobs:
+  Release:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install the project
+        run: uv sync --refresh -U --compile-bytecode
+
+      - name: Run script file
+        run: |
+          uv run pyinstaller \
+          -D -F --optimize 2 \
+          --hidden-import="PIL._tkinter_finder" \
+          --hidden-import="numpy.core.multiarray" \
+          -n hopfield_windows \
+          src/main.py
+        shell: bash
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/hopfield_windows.exe
+          tag: ${{ github.ref }}
+          overwrite: true
