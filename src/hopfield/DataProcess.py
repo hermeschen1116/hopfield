@@ -17,7 +17,7 @@ def extract_dataset(path: str) -> List[numpy.ndarray]:
 				continue
 
 			sub_pattern: str = line.strip()
-			pattern.append([1 if c == "1" else 0 for c in sub_pattern] + [0] * (max_length - len(sub_pattern)))
+			pattern.append([1 if c == "1" else -1 for c in sub_pattern] + [-1] * (max_length - len(sub_pattern)))
 
 	return dataset
 
