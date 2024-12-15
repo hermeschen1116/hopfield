@@ -16,19 +16,19 @@ class HopfieldNetwork:
 		self.__weight: numpy.ndarray = numpy.zeros((input_size, input_size))
 		self.__threshold: numpy.ndarray = numpy.zeros((input_size))
 
-	def memorize(self, knowledgs: Dataset) -> None:
-		for knowledge in knowledgs:
+	def memorize(self, knowledges: Dataset) -> None:
+		for knowledge in knowledges:
 			self.__weight += numpy.outer(knowledge, knowledge)
-
 		self.__weight /= self.__weight.shape[0]
 		numpy.fill_diagonal(self.__weight, 0)
+
 		self.__threshold = self.__weight.sum(0)
 
 	def recall(self, stimulate: numpy.ndarray, max_iter: int = 10) -> numpy.ndarray:
 		state: numpy.ndarray = stimulate.copy()
 		for iteration in range(max_iter):
 			previous_state: numpy.ndarray = state.copy()
-			output: numpy.ndarray = self.__weight.dot(state) - self.__threshold
+			output: numpy.ndarray = numpy.sum(self.__weight * state, axis=1) - self.__threshold
 			state = signal_function(output, state)
 			if numpy.array_equal(state, previous_state):
 				print(f"Recall Iteration: {iteration + 1}")
