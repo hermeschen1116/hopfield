@@ -20,7 +20,7 @@ class HopfieldNetwork:
 		numpy.fill_diagonal(self.__weight, 0)
 		self.__threshold = self.__weight.sum(0)
 
-	def retrieve(self, stimulate: numpy.ndarray, max_iter: int = 10) -> numpy.ndarray:
+	def recall(self, stimulate: numpy.ndarray, max_iter: int = 10) -> numpy.ndarray:
 		state: numpy.ndarray = stimulate.copy()
 		for iteration in range(max_iter):
 			previous_state: numpy.ndarray = state.copy()
