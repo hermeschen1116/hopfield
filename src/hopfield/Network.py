@@ -28,9 +28,10 @@ class HopfieldNetwork:
 		state: numpy.ndarray = stimulate.copy()
 		for iteration in range(max_iter):
 			previous_state: numpy.ndarray = state.copy()
-			output: numpy.ndarray = state.T.dot(self.__weight) - self.__threshold
+			output: numpy.ndarray = self.__weight.dot(state) - self.__threshold
 			state = signal_function(output, state)
 			if numpy.array_equal(state, previous_state):
+				print(f"Recall Iteration: {iteration + 1}")
 				break
 
 		return state
