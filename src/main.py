@@ -1,5 +1,5 @@
 from math import ceil
-from tkinter import Button, LabelFrame, Tk, messagebox
+from tkinter import Button, DoubleVar, Entry, LabelFrame, Tk, messagebox
 from tkinter.filedialog import askopenfilename
 
 import matplotlib.patches as patches
@@ -31,6 +31,16 @@ canvas_data.get_tk_widget().pack(side="top", fill="both")
 control_group = LabelFrame(padx=10, pady=10, border=0)
 control_group.pack(side="bottom", fill="both")
 
+frame_noise = LabelFrame(control_group, text="Noise Rate", padx=10, pady=10)
+frame_noise.pack(side="top", fill="x")
+
+noise_rate = DoubleVar(frame_noise, value=0, name="noise_rate")
+
+textbox_noise = Entry(
+	frame_noise, background="white", foreground="black", font="16", justify="center", textvariable=noise_rate
+)
+textbox_noise.pack(side="bottom", fill="x")
+
 
 def on_button_memorize_activate() -> None:
 	pyplot.clf()
@@ -45,7 +55,7 @@ def on_button_memorize_activate() -> None:
 	knowledges = Dataset(file_path)
 
 	global network
-	network = HopfieldNetwork(input_size=knowledges[0].shape[0])
+	network = HopfieldNetwork(input_size=knowledges[0].shape[0], noise_rate=noise_rate.get())
 	network.memorize(knowledges)
 
 	messagebox.showinfo(title="Hopfield", message="Memorized")
