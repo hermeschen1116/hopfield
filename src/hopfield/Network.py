@@ -20,7 +20,7 @@ def signal_function(output: numpy.ndarray, state: numpy.ndarray) -> numpy.ndarra
 
 
 class HopfieldNetwork:
-	def __init__(self, input_size: int, noise_rate: float = 0.3, seed: int = 42) -> None:
+	def __init__(self, input_size: int, noise_rate: float = 0, seed: int = 42) -> None:
 		numpy.random.seed(seed)
 
 		self.__input_size: int = input_size
