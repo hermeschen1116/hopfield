@@ -4,6 +4,9 @@ from hopfield.DataProcess import Dataset
 
 
 def add_noise(x: numpy.ndarray, threshold: float = 0) -> numpy.ndarray:
+	if threshold == 0:
+		return x
+
 	flip_mask: numpy.ndarray = numpy.random.rand(*x.shape) < threshold
 
 	flipped_x = x.copy()
